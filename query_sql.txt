@@ -20,8 +20,10 @@
   
 5. Extract a set of normalized tables. That is, each entry of a normalized table must contain exactly one value (not a list or a dictionary)
   tmdb_movies(budget, homepage, id, original_language, original_title, overview, popularity, release_date, revenue, runtime, status, tagline, title, vote_average, vote_count)
-  tmdb_cast(cast_id, character, credit_id, gender, id, name, order, movie_id)
-  tmdb_crew(credit_id, department, gender, id, job, name, movie_id)
+  tmdb_cast(cast_id, character, credit_id, gender, actor_id, order, movie_id)
+  tmdb_actors(id, name)
+  tmdb_crew(credit_id, department, gender, crew_member_id, job, movie_id)
+  tmdb_crew_members(id, name)
   tmdb_genres(id, name)
   tmdb_movies_genres(movie_id, genres_id)
   tmdb_keywords(id, name)
