@@ -1,0 +1,82 @@
+1. For each movie, compute the number of cast members
+  select movie_id, count(*)
+  from tmdb_cast
+  group by movie_id
+
+2. How many movies do not have a homepage?
+  select count(*)
+  from tmdb_movies
+  where homepage is null
+  
+3. For each year, how many movies do not have a homepage?
+  select year(release_date), count(*)
+  from tmdb_movies
+  where homepage is null
+  group by year(release_date)
+
+4. Extract the domain of each homepage
+  select ...(homepage) as domain
+  from tmdb_movies
+  
+5. Extract a set of normalized tables. That is, each entry of a normalized table must contain exactly one value (not a list or a dictionary)
+  tmdb_movies(budget, homepage, id, original_language, original_title, overview, popularity, release_date, revenue, runtime, status, tagline, title, vote_average, vote_count)
+  tmdb_cast(cast_id, character, credit_id, gender, id, name, order, movie_id)
+  tmdb_crew(credit_id, department, gender, id, job, name, movie_id)
+  tmdb_genres(id, name)
+  tmdb_movies_genres(movie_id, genres_id)
+  tmdb_keywords(id, name)
+  tmdb_movies_keywords(movie_id, keyword_id)
+  tmdb_production_companies(name, id)
+  tmdb_movies_companies(movie_id, company_id)
+  tmdb_production_countries(iso_3166_1, name)
+  tmdb_movies_countries(movie_id, country_iso)
+  tmdb_spoken_languages(iso_639_1, name)
+  tmdb_movies_languages(movie_id, language_iso)
+
+6. For each movie, compute the gross margin (difference between revenue and budget)
+  select (revenue - budget) as gross_margin
+  from tmdb_movies
+  
+7. For each movie, compute the number of crew members
+  select movie_id, count(*)
+  from tmdb_crew
+  group by movie_id
+  
+8. For each movie, compute the number of directors
+  select movie_id, count(*)
+  from tmdb_crew
+  where job = 'Director'
+  group by movie_id
+
+9. For each language, compute the number of movies where such language is spoken
+  select language_iso, count(*)
+  from tmdb_movies_languages
+  group by language_iso
+  
+10. For each company and each decade, compute the overall revenue
+  select company_id, ...(release_date) as decade, sum(revenue) as overall_revenue
+  from tmdb_movies_companies mov_com inner join tmdb_movies mov on (mov_com.movie_id = mov.id)
+  group by company_id, ...(release_date)
+  
+11. For each decade, compute the company with maximum revenue
+  select decade, company_id
+  from (
+        select ...(release_date) as decade, company_id, sum(revenue) as overall_revenue
+        from tmdb_movies_companies mov_com inner join tmdb_movies mov on (mov_com.movie_id = mov.id)
+        group by company_id, ...(release_date)
+       ) as a
+  where overall_revenue >= all (
+                                select overall_revenue
+                                from (
+                                      select ...(release_date) as decade, company_id, sum(revenue) as overall_revenue
+                                      from tmdb_movies_companies mov_com inner join tmdb_movies mov on (mov_com.movie_id = mov.id)
+                                      group by company_id, ...(release_date)
+                                     ) as b
+                                where a.decade = b.decade
+                               )
+
+12. In each year, how many movies have revenue smaller than the budget
+  select year(release_date), count(*)
+  from tmdb_movies
+  where revenue < budget
+  group by year(release_date)                                     
