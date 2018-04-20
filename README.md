@@ -1,7 +1,7 @@
 # Foundations_of_Computer_Science_Final_Project
 Python and SQL for The Movie DataBase (TMDB) analysis
 
-Starting from the The Movie DataBase (TMDB) sample datasets,
+Starting from the The Movie DataBase (TMDB) sample datasets, 
 All groups and individual must do the following:
 1.  For each movie, compute the number of cast members
 2.  How many movies do not have a homepage?
