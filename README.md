@@ -15,8 +15,3 @@ All groups and individual must do the following:
 10. For each company and each decade, compute the overall revenue
 11. For each decade, compute the company with maximum revenue
 12. In each year, how many movies have revenue smaller than the budget?
-
-Notes
-1.  It is better to use GitHub for developing the project. It is not mandatory, though.
-2.  The project must be a jupyter notebook.
-3.  There is no restriction on the libraries that can be used, nor on the Python version.
